@@ -1,0 +1,97 @@
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script src="/socket.io/socket.io.js"></script> 
+    <style type="text/css">
+/* line 243, ../sass/_page4.scss */
+.right{float: right !important;background: #59A787 !important;}
+.txt-info {
+  margin-top: 5px;
+  float: left;
+  background: #95d5fe;
+  border-radius: 15px;
+  max-width: 251px;
+  min-width: 251px;
+  padding: 12px;
+  -webkit-box-sizing: border-box;
+  font-size: 16px;
+  color: #000;
+  line-height: 20px;
+  position: relative;
+  margin-bottom: 3px;
+}
+/* line 259, ../sass/_page4.scss */
+.txt-info p {
+  position: relative;
+  z-index: 5;
+}
+/* line 263, ../sass/_page4.scss */
+.txt-info .info-bg {
+  background-repeat: no-repeat;
+  position: absolute;
+}
+/* line 268, ../sass/_page4.scss */
+.txt-info .info-bg.info-bg-t {
+  top: -8px;
+  left: -6px;
+  width: 262px;
+  height: 35px;
+  background-image: url('../img/common.png');
+  background-position: 0 -258px;
+  -webkit-background-size: 262px auto;
+  background-size: 262px auto;
+}
+/* line 274, ../sass/_page4.scss */
+.txt-info .info-bg.info-bg-b {
+  width: 253px;
+  height: 12px;
+  background-image: url('../img/common.png');
+  background-position: 0 -241px;
+  -webkit-background-size: 262px auto;
+  background-size: 262px auto;
+  -webkit-background-size: 261px auto;
+          background-size: 261px auto;
+  height: 12px;
+  left: 0px;
+  bottom: -1px;
+}
+ul li{list-style: none;    height: 80px;}
+    </style>
+    <script>
+        $(function(){
+            var iosocket = io.connect();
+  
+            iosocket.on('connect', function () {
+                $('#incomingChatMessages').append($('<li><div class="txt-info"> <p>已连接！</p> </div></li>'));
+  
+                iosocket.on('message', function(message) { 
+                  
+                    $('#incomingChatMessages').append($('<li><div class="txt-info right"> <p>ta: '+message+'</p> </div></li>'));
+                });
+                iosocket.on('disconnect', function() {
+                    $('#incomingChatMessages').append('<li><div class="txt-info"> <p>失去连接！</p> </div></li>');
+                });
+            });
+  
+            $('#outgoingChatMessage').keypress(function(event) {
+                if(event.which == 13) {
+                    event.preventDefault();
+                    iosocket.send($('#outgoingChatMessage').val());
+                   
+                    $('#outgoingChatMessage').val('');
+                }
+            });
+        });
+    </script>
+</head>
+<body> 
+    
+       <br/>                  
+控制台:&nbsp;<ul id="incomingChatMessages"></ul>
+<br />
+<textarea id="outgoingChatMessage"></textarea> 
+</body>
+</html>
