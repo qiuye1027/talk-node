@@ -2,7 +2,7 @@ var fs = require('fs')	//文件操作
     , http = require('http')	//http服务器
     , socketio = require('socket.io');	//socket.io，用来和前台进行交互
 
-
+ 
 
 //匹配数据库词库
 var words = require('./fcfn');
